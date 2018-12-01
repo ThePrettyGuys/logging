@@ -11,4 +11,6 @@ app.get('/startLog', loggingController.startLog);
 
 app.get('/stopLog', loggingController.stopLog);
 
+app.get('/isUNQFYAlive', loggingController.isUNQFYAlive);
+
 module.exports = app;
