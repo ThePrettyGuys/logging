@@ -3,7 +3,7 @@ let app= express();
 let loggingController = require('../controllers/loggingController')
 
 //Rutas
-//app.get('/log',loggingController.log);
+app.post('/log',loggingController.log);
 
 app.get('/statusLog', loggingController.statusLog);
 
