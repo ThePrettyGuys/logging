@@ -22,5 +22,4 @@ Endpoints disponibles:
 
 * **Desactivar servicio de log**: localhost:7000/api/stopLog
 
-//EN CURSO:
-* **Loggear en canal de Slack**: localhost:7000/log
+* **Loggear en canal de Slack**: localhost:7000/log (necesita un body con el campo "text", en formato JSON)
