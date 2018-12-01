@@ -28,8 +28,10 @@ app.use(bodyParser.json());
 
 // Importar rutas
 let appRoutes = require('./routes/app');
+let loggingRoutes = require('./routes/logging');
 
 // Rutas
+app.use('/api', loggingRoutes);
 app.use('/', appRoutes);
 
 app.use(require('body-parser').json());
