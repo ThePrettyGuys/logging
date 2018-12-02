@@ -41,8 +41,10 @@ exports.log = function (req, res, next) {
         },
         json: true,
     };
-
-    return rp.post(options)
-        .then( (response) => { return res.status(200).json({response: response}) } )
-        .catch(() => res.status(404).json({status: 404, errorCode: "RELATED_RESOURCE_NOT_FOUND"}))
+    if(mustLog){
+        return rp.post(options)
+            .then( (response) => { return res.status(200).json({response: response}) } )
+            .catch(() => res.status(404).json({status: 404, errorCode: "RELATED_RESOURCE_NOT_FOUND"}))
+    } else { 
+        return res.status(418).json({ logService: "Service stopped"})}
 };
