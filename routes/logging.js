@@ -13,4 +13,8 @@ app.get('/stopLog', loggingController.stopLog);
 
 app.get('/isUNQFYAlive', loggingController.isUNQFYAlive);
 
+app.post('/hooks/slack/command', loggingController.slackCommand);
+
+app.get('/hooks/slack/oauth', loggingController.slackOauth);
+
 module.exports = app;
