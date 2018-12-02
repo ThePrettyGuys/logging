@@ -5,6 +5,7 @@ const slackChannel = require('../config/config').SLACKCHANNELURL;
 const slackCLientId = require('../config/config').SLACKCLIENTID;
 const slackCLientSecret = require('../config/config').SLACKCLIENTSECRET;
 let mustLog = require('../config/config').MUSTLOG;
+const slackOAuthAcessUrl = require('../config/config').SLACKOAUTHACESSURL;
 
 const ACTIVATED = "activated";
 const STOPPED = "stopped";
@@ -18,20 +19,6 @@ exports.startLog = function (req, res) {
     mustLog = true;
     return res.status(200).json({ logService: ACTIVATED});
 };
-
-function logIn(slackChannel, textToLog, res) {
-    const options = {
-        url: slackChannel,
-        body: { text: textToLog },
-        json: true,
-    };
-
-    return rp.post(options)
-        .then((response) => {
-            return res.status(200).json({ response: response });
-        })
-        .catch(() => res.status(404).json({ status: 404, errorCode: errorCode.RELATED_RESOURCE_NOT_FOUND }));
-}
 
 exports.stopLog = function (req, res) {
     mustLog = false;
@@ -63,7 +50,10 @@ exports.log = function (req, res, next) {
 };
 
 exports.slackCommand = function (req, res, next) {
-    let status = mustLog ? "Unqfy Logging Service is up and running!!!" : "Unqfy Logging Service is down!!!";
+    const runningMessage = "Unqfy Logging Service is up and running!!!";
+    const stoppedMessage = "Unqfy Logging Service is down!!!";
+
+    let status = mustLog ? runningMessage : stoppedMessage;
     res.send(status);
 };
 
@@ -71,21 +61,35 @@ exports.slackOauth = function(req, res, next) {
     const slackCode = req.query.code;
     if (!slackCode) {
         res.status(500);
-        res.send({"Error": "Looks like we're not getting code."});
-        console.log("Looks like we're not getting code.");
+        const errorMessage = "Looks like we're not getting code.";
+        res.send({ Error: errorMessage });
+        console.log(errorMessage);
     } else {
-        request({
-            url: 'https://slack.com/api/oauth.access',
-            qs: {code: slackCode, client_id: slackCLientId, client_secret: slackCLientSecret},
-            method: 'GET',
-
-        }, function (error, response, body) {
-            if (error) {
-                console.log(error);
-            } else {
-                res.json(body);
-
-            }
-        })
+        return slackAuth(slackCode, res);
     }
 };
+
+function logIn(slackChannel, textToLog, res) {
+    const options = {
+        url: slackChannel,
+        body: { text: textToLog },
+        json: true,
+    };
+
+    return rp.post(options)
+        .then((response) => {
+            return res.status(200).json({ response: response });
+        })
+        .catch(() => res.status(404).json({ status: 404, errorCode: errorCode.RELATED_RESOURCE_NOT_FOUND }));
+}
+
+function slackAuth(slackCode, res) {
+    const options = {
+        url: slackOAuthAcessUrl,
+        qs: {code: slackCode, client_id: slackCLientId, client_secret: slackCLientSecret}
+    };
+
+    return rp.get(options)
+        .then(res.json)
+        .catch(console.log)
+}
