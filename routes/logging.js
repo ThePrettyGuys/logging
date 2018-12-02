@@ -1,6 +1,6 @@
 let express= require('express');
 let app= express();
-let loggingController = require('../controllers/loggingController')
+let loggingController = require('../controllers/loggingController');
 
 //Rutas
 app.post('/log',loggingController.log);

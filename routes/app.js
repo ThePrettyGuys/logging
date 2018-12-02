@@ -1,5 +1,6 @@
 let express= require('express');
 let app= express();
+const errorCode = require('../errorCodes');
 
 //Rutas
 app.get('/', (req, res) => {
@@ -9,7 +10,7 @@ app.get('/', (req, res) => {
 app.use('*', function(req, res){
     res.status(404).json({
         "status": 404,
-        "errorCode": "RESOURCE_NOT_FOUND"
+        "errorCode": errorCode.RESOURCE_NOT_FOUND
     })
 });
 
