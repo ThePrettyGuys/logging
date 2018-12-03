@@ -1,6 +1,7 @@
 const rp = require('request-promise');
 const errorCode = require('../errorCodes');
 const unqfyURL = require('../config/endpoints').UNQFYURL;
+const notifyURL = require('../config/endpoints').NOTIFY_ENDPOINT;
 const slackChannel = require('../config/endpoints').SLACKCHANNELURL;
 const slackCLientId = require('../config/config').SLACKCLIENTID;
 const slackCLientSecret = require('../config/config').SLACKCLIENTSECRET;
@@ -26,14 +27,26 @@ exports.stopLog = function (req, res) {
 };
 
 exports.isUNQFYAlive = function (req, res) {
+    return isAlive(res, unqfyURL);
+};
+
+exports.isNotifyAlive = function (req, res) {
+    return isAlive(res, notifyURL);
+};
+
+function isAlive(res, url) {
     const options = {
-        url: unqfyURL,
-        json: true,
+        url: url,
+        json: true
     };
     return rp.get(options)
-        .then (() => { return res.status(200).json({isAlive: "true" }) } )
-        .catch(() => { return res.status(404).json({isAlive: "false"}) } )
-};
+        .then(() => {
+            return res.status(200).json({ isAlive: 'true' });
+        })
+        .catch(() => {
+            return res.status(404).json({ isAlive: 'false' });
+        });
+}
 
 exports.log = function (req, res, next) {
     const textToLog = req.body.text;
