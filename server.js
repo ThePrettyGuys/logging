@@ -8,6 +8,8 @@
 // Requires
 let express= require ('express');
 let bodyParser= require ('body-parser');
+const BAD_REQUEST = require('../logging/errorCodes').BAD_REQUEST;
+const SERVER_PORT = require('./config/config').SERVER_PORT;
 
 // Inicializar variables
 let app = express();
@@ -41,7 +43,7 @@ app.use((err, req, res, next) => {
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
         res.status(400).json({
             "status": 400,
-            "errorCode": "BAD_REQUEST"
+            "errorCode": BAD_REQUEST
         })
     }
 
@@ -49,6 +51,6 @@ app.use((err, req, res, next) => {
 });
 
 // Escuchar peticiones
-app.listen(7000, () => {
-    console.log('Express Server puerto 7000: \x1b[32m%s\x1b[0m', 'online');
+app.listen(SERVER_PORT, () => {
+    console.log(`Express Server puerto ${SERVER_PORT}: \x1b[32m%s\x1b[0m`, 'online');
 });
