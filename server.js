@@ -8,8 +8,8 @@
 // Requires
 let express= require ('express');
 let bodyParser= require ('body-parser');
-const BAD_REQUEST = require('../logging/errorCodes').BAD_REQUEST;
 const SERVER_PORT = require('./config/config').SERVER_PORT;
+const BAD_REQUEST = require('./errorCodes').BAD_REQUEST;
 
 // Inicializar variables
 let app = express();
