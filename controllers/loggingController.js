@@ -1,11 +1,11 @@
 const rp = require('request-promise');
 const errorCode = require('../errorCodes');
-const unqfyURL = require('../config/config').UNQFYURL;
-const slackChannel = require('../config/config').SLACKCHANNELURL;
+const unqfyURL = require('../config/endpoints').UNQFYURL;
+const slackChannel = require('../config/endpoints').SLACKCHANNELURL;
 const slackCLientId = require('../config/config').SLACKCLIENTID;
 const slackCLientSecret = require('../config/config').SLACKCLIENTSECRET;
 let mustLog = require('../config/config').MUSTLOG;
-const slackOAuthAcessUrl = require('../config/config').SLACKOAUTHACESSURL;
+const slackOAuthAcessUrl = require('../config/endpoints').SLACKOAUTHACESSURL;
 
 const ACTIVATED = "activated";
 const STOPPED = "stopped";
