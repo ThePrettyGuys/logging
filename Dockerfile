@@ -16,8 +16,8 @@ COPY package-lock.json .
 # Ejecuta npm install. Esto produce que se instalen todas las dependencias necearias para correr la aplicación
 RUN ["npm", "install"]
 
-# Expone el puerto 5000 donde corre la aplicación
-EXPOSE 5000
+# Expone el puerto 5002 donde corre la aplicación
+EXPOSE 5002
 
 # Copia los fuentes dentro del container
 COPY . /home/node/logging/
