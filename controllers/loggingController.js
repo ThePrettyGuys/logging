@@ -82,9 +82,9 @@ exports.slackOauth = function(req, res, next) {
     }
 };
 
-function logIn(slackChannel, textToLog, res) {
+function logIn(url, textToLog, res) {
     const options = {
-        url: slackChannel,
+        url: url,
         body: { text: textToLog },
         json: true,
     };
