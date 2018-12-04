@@ -24,7 +24,7 @@ COPY . /home/node/logging/
 
 # Le da permisos al usuario node para escribir en /home/node/logging
 # Como comentario, notar que el comando RUN nos permite ejecutar culquier comando bash valido.
-RUN chown node:users /home/node/
+RUN chown -R node:users /home/node/
 
 # Habilita el usuario node. Por defecto, los containers corren los comandos con el usuario root
 USER node
